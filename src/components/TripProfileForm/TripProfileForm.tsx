@@ -20,7 +20,6 @@ export function TripProfileForm({ onSubmit }: TripProfileFormProps) {
   const [accommodationType, setAccommodationType] =
     useState<AccommodationType | null>(null);
 
-  // Field-level error messages — only populated after a submit attempt
   const [departureDateError, setDepartureDateError] = useState<string | null>(null);
   const [returnDateError, setReturnDateError] = useState<string | null>(null);
   const [accommodationTypeError, setAccommodationTypeError] = useState<string | null>(null);
@@ -37,7 +36,6 @@ export function TripProfileForm({ onSubmit }: TripProfileFormProps) {
     const result = validateTripProfile(input);
 
     if (!result.valid) {
-      // Clear previous errors then apply new ones
       setDepartureDateError(null);
       setReturnDateError(null);
       setAccommodationTypeError(null);
@@ -54,7 +52,6 @@ export function TripProfileForm({ onSubmit }: TripProfileFormProps) {
       return;
     }
 
-    // Validation passed — construct the full TripProfile
     const departure = parseLocalDate(departureDate)!;
     const returnD = parseLocalDate(returnDate)!;
     const durationMs = returnD.getTime() - departure.getTime();
@@ -69,7 +66,6 @@ export function TripProfileForm({ onSubmit }: TripProfileFormProps) {
       tripDurationDays,
     };
 
-    // Clear any stale errors before calling onSubmit
     setDepartureDateError(null);
     setReturnDateError(null);
     setAccommodationTypeError(null);
@@ -78,69 +74,90 @@ export function TripProfileForm({ onSubmit }: TripProfileFormProps) {
   }
 
   return (
-    <form onSubmit={handleSubmit} noValidate aria-label="Trip profile form">
-      <div>
-        <label htmlFor="departureDate">Departure date</label>
-        <input
-          id="departureDate"
-          type="date"
-          value={departureDate}
-          onChange={(e) => setDepartureDate(e.target.value)}
-          aria-describedby={departureDateError ? "departureDateError" : undefined}
-          aria-invalid={departureDateError ? true : undefined}
-        />
-        {departureDateError && (
-          <span id="departureDateError" role="alert">
-            {departureDateError}
-          </span>
-        )}
-      </div>
+    <div className="card">
+      <form
+        onSubmit={handleSubmit}
+        noValidate
+        aria-label="Trip profile form"
+        className="form-card"
+      >
+        {/* Departure date */}
+        <div className="form-field">
+          <label htmlFor="departureDate" className="form-label">
+            Departure date
+          </label>
+          <input
+            id="departureDate"
+            type="date"
+            className="form-input"
+            value={departureDate}
+            onChange={(e) => setDepartureDate(e.target.value)}
+            aria-describedby={departureDateError ? "departureDateError" : undefined}
+            aria-invalid={departureDateError ? true : undefined}
+          />
+          {departureDateError && (
+            <span id="departureDateError" role="alert" className="form-error">
+              {departureDateError}
+            </span>
+          )}
+        </div>
 
-      <div>
-        <label htmlFor="returnDate">Return date</label>
-        <input
-          id="returnDate"
-          type="date"
-          value={returnDate}
-          onChange={(e) => setReturnDate(e.target.value)}
-          aria-describedby={returnDateError ? "returnDateError" : undefined}
-          aria-invalid={returnDateError ? true : undefined}
-        />
-        {returnDateError && (
-          <span id="returnDateError" role="alert">
-            {returnDateError}
-          </span>
-        )}
-      </div>
+        {/* Return date */}
+        <div className="form-field">
+          <label htmlFor="returnDate" className="form-label">
+            Return date
+          </label>
+          <input
+            id="returnDate"
+            type="date"
+            className="form-input"
+            value={returnDate}
+            onChange={(e) => setReturnDate(e.target.value)}
+            aria-describedby={returnDateError ? "returnDateError" : undefined}
+            aria-invalid={returnDateError ? true : undefined}
+          />
+          {returnDateError && (
+            <span id="returnDateError" role="alert" className="form-error">
+              {returnDateError}
+            </span>
+          )}
+        </div>
 
-      <div>
-        <label htmlFor="accommodationType">Accommodation type</label>
-        <select
-          id="accommodationType"
-          value={accommodationType ?? ""}
-          onChange={(e) => {
-            const val = e.target.value;
-            setAccommodationType(val === "" ? null : (val as AccommodationType));
-          }}
-          aria-describedby={accommodationTypeError ? "accommodationTypeError" : undefined}
-          aria-invalid={accommodationTypeError ? true : undefined}
-        >
-          <option value="">Select accommodation type</option>
-          {ACCOMMODATION_TYPES.map((type) => (
-            <option key={type} value={type}>
-              {type}
-            </option>
-          ))}
-        </select>
-        {accommodationTypeError && (
-          <span id="accommodationTypeError" role="alert">
-            {accommodationTypeError}
-          </span>
-        )}
-      </div>
+        {/* Accommodation type */}
+        <div className="form-field">
+          <label htmlFor="accommodationType" className="form-label">
+            Accommodation type
+          </label>
+          <select
+            id="accommodationType"
+            className="form-select"
+            value={accommodationType ?? ""}
+            onChange={(e) => {
+              const val = e.target.value;
+              setAccommodationType(val === "" ? null : (val as AccommodationType));
+            }}
+            aria-describedby={accommodationTypeError ? "accommodationTypeError" : undefined}
+            aria-invalid={accommodationTypeError ? true : undefined}
+          >
+            <option value="">Select accommodation type</option>
+            {ACCOMMODATION_TYPES.map((type) => (
+              <option key={type} value={type}>
+                {type}
+              </option>
+            ))}
+          </select>
+          {accommodationTypeError && (
+            <span id="accommodationTypeError" role="alert" className="form-error">
+              {accommodationTypeError}
+            </span>
+          )}
+        </div>
 
-      <button type="submit">Generate packing list</button>
-    </form>
+        <button type="submit" className="btn btn-primary">
+          Generate packing list →
+        </button>
+      </form>
+    </div>
   );
 }
 

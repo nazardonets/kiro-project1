@@ -13,25 +13,33 @@ function formatDate(date: Date): string {
   });
 }
 
+const SEASON_EMOJI: Record<Season, string> = {
+  Spring: "🌸",
+  Summer: "☀️",
+  Autumn: "🍂",
+  Winter: "❄️",
+};
+
 export function TripSummary({ tripProfile, season }: TripSummaryProps) {
   return (
-    <section aria-label="Trip summary">
-      <dl>
-        <div>
-          <dt>Departure date</dt>
+    <section aria-label="Trip summary" className="trip-summary">
+      <p className="trip-summary__title">Your trip</p>
+      <dl className="trip-summary__grid">
+        <div className="trip-summary__item">
+          <dt>Departure</dt>
           <dd>{formatDate(tripProfile.departureDate)}</dd>
         </div>
-        <div>
-          <dt>Return date</dt>
+        <div className="trip-summary__item">
+          <dt>Return</dt>
           <dd>{formatDate(tripProfile.returnDate)}</dd>
         </div>
-        <div>
-          <dt>Accommodation type</dt>
+        <div className="trip-summary__item">
+          <dt>Accommodation</dt>
           <dd>{tripProfile.accommodationType}</dd>
         </div>
-        <div>
+        <div className="trip-summary__item">
           <dt>Season</dt>
-          <dd>{season}</dd>
+          <dd>{SEASON_EMOJI[season]} {season}</dd>
         </div>
       </dl>
     </section>

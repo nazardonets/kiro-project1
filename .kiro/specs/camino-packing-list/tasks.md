@@ -197,11 +197,11 @@ Implement a client-side React + TypeScript web app that collects trip dates and 
     - _File: `src/components/PackingListView/PackingListView.test.tsx`_
     - _Requirements: 4.1, 4.4, 4.6, 5.3_
 
-- [ ] 9. Checkpoint — Ensure all component tests pass
+- [x] 9. Checkpoint — Ensure all component tests pass
   - Ensure all tests pass, ask the user if questions arise.
 
-- [ ] 10. Wire everything together in App
-  - [ ] 10.1 Create `src/App.tsx` with top-level state management
+- [x] 10. Wire everything together in App
+  - [x] 10.1 Create `src/App.tsx` with top-level state management
     - Manage `tripProfile: TripProfile | null` and `packingList: PackingList | null` in state
     - When `tripProfile` is null, render `TripProfileForm`
     - On form submit, call `generatePackingList(profile)` and store both in state, then render `PackingListView`
@@ -215,13 +215,13 @@ Implement a client-side React + TypeScript web app that collects trip dates and 
     - _File: `src/App.test.tsx`_
     - _Requirements: 1.7, 4.5, 7.3, 7.4_
 
-- [ ] 11. Add print styles
-  - [ ] 11.1 Create `src/print.css` with `@media print` rules
+- [x] 11. Add print styles
+  - [x] 11.1 Create `src/print.css` with `@media print` rules
     - Hide interactive elements (checkboxes rendered as static marks, buttons hidden)
     - Ensure trip name, dates, and all items grouped by category are visible
     - _Requirements: 6.2_
 
-- [ ] 12. Final checkpoint — Ensure all tests pass
+- [x] 12. Final checkpoint — Ensure all tests pass
   - Run `vitest --run` and confirm all tests pass. Ask the user if any questions arise.
 
 ## Notes

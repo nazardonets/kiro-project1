@@ -1,0 +1,194 @@
+/* ============================================================
+   Print styles — Camino Packing List
+   Requirement 6.2: clean printer-friendly output with no
+   interactive elements, checkboxes, or decorative icons.
+   ============================================================ */
+
+@media print {
+  /* ── Page setup ── */
+  @page {
+    margin: 2cm;
+    size: A4 portrait;
+  }
+
+  /* ── Base reset ── */
+  *, *::before, *::after {
+    box-sizing: border-box;
+  }
+
+  body {
+    font-family: Georgia, 'Times New Roman', serif;
+    font-size: 11pt;
+    color: #000;
+    background: #fff;
+    margin: 0;
+    padding: 0;
+  }
+
+  /* ── Hide everything by default, then selectively show ── */
+
+  /* Hide the screen-only page wrapper chrome */
+  .app-header {
+    display: none !important;
+  }
+
+  /* Hide the form screen entirely */
+  form,
+  [aria-label="Trip profile form"] {
+    display: none !important;
+  }
+
+  /* Hide all buttons and controls */
+  button,
+  .controls-bar,
+  [aria-label="Packing list controls"] {
+    display: none !important;
+  }
+
+  /* Hide real checkboxes */
+  input[type="checkbox"] {
+    display: none !important;
+  }
+
+  /* Hide category emoji icons */
+  .category-section__icon {
+    display: none !important;
+  }
+
+  /* Hide the per-category packed count badge */
+  .category-section__count {
+    display: none !important;
+  }
+
+  /* Hide the progress bar */
+  .progress-bar-wrapper {
+    display: none !important;
+  }
+
+  /* Hide the card shadow/border — just show content */
+  .card {
+    box-shadow: none !important;
+    border: none !important;
+    padding: 0 !important;
+  }
+
+  /* ── Print header: title + trip summary ── */
+
+  /* Show a clean "Camino Packing List" heading before the trip summary */
+  [aria-label="Packing list view"]::before {
+    content: "Camino Packing List";
+    display: block;
+    font-family: Georgia, serif;
+    font-size: 22pt;
+    font-weight: bold;
+    color: #000;
+    margin-bottom: 0.75em;
+    padding-bottom: 0.4em;
+    border-bottom: 1.5pt solid #000;
+  }
+
+  /* ── Trip summary ── */
+  .trip-summary {
+    background: none !important;
+    border: none !important;
+    border-bottom: 0.5pt solid #888 !important;
+    border-radius: 0 !important;
+    padding: 0 0 0.75em 0 !important;
+    margin-bottom: 1.25em !important;
+  }
+
+  .trip-summary__title {
+    display: none !important;
+  }
+
+  .trip-summary__grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.3em 2em;
+  }
+
+  .trip-summary__item dt {
+    font-size: 7pt;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #555;
+    margin-bottom: 0;
+  }
+
+  .trip-summary__item dd {
+    font-size: 10pt;
+    font-weight: normal;
+    color: #000;
+    margin: 0 0 0.4em 0;
+  }
+
+  /* ── Category sections ── */
+  .category-section {
+    break-inside: avoid;
+    margin-bottom: 1.25em;
+  }
+
+  .category-section__header {
+    border-bottom: 0.5pt solid #aaa !important;
+    padding-bottom: 0.2em !important;
+    margin-bottom: 0.4em !important;
+    gap: 0 !important;
+  }
+
+  .category-section__title {
+    font-family: Georgia, serif;
+    font-size: 11pt;
+    font-weight: bold;
+    color: #000;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+
+  /* ── Item list ── */
+  .category-section__list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    gap: 0 !important;
+  }
+
+  .packing-item {
+    opacity: 1 !important;
+    background: none !important;
+    padding: 0;
+  }
+
+  /* Replace the hidden checkbox with a static □ symbol */
+  .packing-item__label {
+    display: flex;
+    align-items: baseline;
+    gap: 0.4em;
+    padding: 0.18em 0 !important;
+    cursor: default;
+  }
+
+  .packing-item__label::before {
+    content: "□";
+    font-size: 10pt;
+    flex-shrink: 0;
+    color: #000;
+  }
+
+  /* Remove strikethrough for print — show all items cleanly */
+  .packing-item__name,
+  .packing-item__name--checked {
+    font-size: 10.5pt;
+    color: #000 !important;
+    text-decoration: none !important;
+  }
+
+  .packing-item__note,
+  .packing-item__note--checked {
+    font-size: 8.5pt;
+    color: #555 !important;
+    text-decoration: none !important;
+    opacity: 1 !important;
+    font-style: italic;
+  }
+}

@@ -26,7 +26,6 @@ function buildExportContent(packingList: PackingList, tripProfile: TripProfile):
   lines.push(`Season: ${tripProfile.season}`);
   lines.push("");
 
-  // Group items by category
   const byCategory = new Map<Category, typeof packingList.items>();
   for (const item of packingList.items) {
     const existing = byCategory.get(item.category);
@@ -96,30 +95,41 @@ export function PackingListControls({
   }
 
   return (
-    <div aria-label="Packing list controls">
-      <div style={{ display: "flex", gap: "0.75rem", flexWrap: "wrap", alignItems: "center" }}>
-        <button type="button" onClick={handleExport} aria-label="Export packing list">
-          Export
-        </button>
-        {exportMessage && (
-          <span role="status" aria-live="polite" style={{ color: "#c00", fontSize: "0.875rem" }}>
-            {exportMessage}
-          </span>
-        )}
+    <div aria-label="Packing list controls" className="controls-bar">
+      <button
+        type="button"
+        className="btn btn-secondary"
+        onClick={handleExport}
+        aria-label="Export packing list"
+      >
+        ↓ Export
+      </button>
 
-        <button type="button" onClick={handlePrint} aria-label="Print packing list">
-          Print
-        </button>
-        {printMessage && (
-          <span role="status" aria-live="polite" style={{ color: "#c00", fontSize: "0.875rem" }}>
-            {printMessage}
-          </span>
-        )}
+      <button
+        type="button"
+        className="btn btn-secondary"
+        onClick={handlePrint}
+        aria-label="Print packing list"
+      >
+        🖨 Print
+      </button>
 
-        <button type="button" onClick={handleStartOver} aria-label="Start over">
-          Start Over
-        </button>
-      </div>
+      <div className="controls-bar__spacer" />
+
+      <button
+        type="button"
+        className="btn btn-danger"
+        onClick={handleStartOver}
+        aria-label="Start over"
+      >
+        ↺ Start Over
+      </button>
+
+      {(exportMessage || printMessage) && (
+        <p role="status" aria-live="polite" className="controls-inline-msg">
+          {exportMessage ?? printMessage}
+        </p>
+      )}
     </div>
   );
 }

@@ -9,28 +9,26 @@ interface PackingItemProps {
 export function PackingItem({ item, checked, onToggle }: PackingItemProps) {
   return (
     <li
-      style={{ opacity: checked ? 0.5 : 1 }}
+      className={`packing-item${checked ? " packing-item--checked" : ""}`}
       aria-label={item.name}
     >
-      <label style={{ display: "flex", alignItems: "flex-start", gap: "0.5rem", cursor: "pointer" }}>
+      <label className="packing-item__label">
         <input
           type="checkbox"
+          className="packing-item__checkbox"
           checked={checked}
           onChange={() => onToggle(item.id)}
           aria-label={`Mark ${item.name} as packed`}
         />
-        <span>
-          <span style={{ textDecoration: checked ? "line-through" : "none" }}>
+        <span className="packing-item__content">
+          <span
+            className={`packing-item__name${checked ? " packing-item__name--checked" : ""}`}
+          >
             {item.name}
           </span>
           {item.note && (
             <span
-              style={{
-                display: "block",
-                fontSize: "0.875rem",
-                color: "#666",
-                textDecoration: checked ? "line-through" : "none",
-              }}
+              className={`packing-item__note${checked ? " packing-item__note--checked" : ""}`}
             >
               {item.note}
             </span>

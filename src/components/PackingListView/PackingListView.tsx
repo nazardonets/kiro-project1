@@ -10,7 +10,6 @@ interface PackingListViewProps {
   onReset: () => void;
 }
 
-// Canonical category order for display
 const CATEGORY_ORDER: Category[] = [
   "Clothing",
   "Footwear",
@@ -42,7 +41,6 @@ export function PackingListView({
 
   const isEmpty = packingList.items.length === 0;
 
-  // Group items by category, preserving canonical order
   const itemsByCategory = new Map<Category, typeof packingList.items>();
   for (const category of CATEGORY_ORDER) {
     const items = packingList.items.filter((item) => item.category === category);
@@ -56,21 +54,43 @@ export function PackingListView({
     checkedIds.has(item.id)
   ).length;
 
+  const progressPercent = totalItems > 0 ? Math.round((packedItems / totalItems) * 100) : 0;
+
   return (
-    <main aria-label="Packing list view">
+    <main aria-label="Packing list view" className="card">
       <TripSummary tripProfile={tripProfile} season={tripProfile.season} />
 
       {isEmpty ? (
-        <p role="status">
-          No items found for the given trip profile. Please try different dates
-          or accommodation type.
-        </p>
+        <div className="empty-state">
+          <div className="empty-state__icon">🎒</div>
+          <p className="empty-state__text">
+            No items found for the given trip profile. Please try different dates
+            or accommodation type.
+          </p>
+        </div>
       ) : (
         <>
-          <p aria-live="polite" aria-atomic="true">
-            {packedItems} of {totalItems} items packed
-          </p>
+          {/* Progress bar */}
+          <div className="progress-bar-wrapper">
+            <div className="progress-counter">
+              <span className="progress-counter__label">Items packed</span>
+              <span
+                className="progress-counter__fraction"
+                aria-live="polite"
+                aria-atomic="true"
+              >
+                {packedItems} of {totalItems}
+              </span>
+            </div>
+            <div className="progress-bar" role="progressbar" aria-valuenow={progressPercent} aria-valuemin={0} aria-valuemax={100}>
+              <div
+                className="progress-bar__fill"
+                style={{ width: `${progressPercent}%` }}
+              />
+            </div>
+          </div>
 
+          {/* Categories */}
           <div>
             {Array.from(itemsByCategory.entries()).map(([category, items]) => (
               <CategorySection
