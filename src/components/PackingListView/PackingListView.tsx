@@ -43,7 +43,16 @@ export function PackingListView({
 
   const itemsByCategory = new Map<Category, typeof packingList.items>();
   for (const category of CATEGORY_ORDER) {
-    const items = packingList.items.filter((item) => item.category === category);
+    const items = packingList.items
+      .filter((item) => item.category === category)
+      .sort((a, b) => {
+        // Backpack items always sort to the top of their category
+        const aIsBackpack = a.id.startsWith("backpack-");
+        const bIsBackpack = b.id.startsWith("backpack-");
+        if (aIsBackpack && !bIsBackpack) return -1;
+        if (!aIsBackpack && bIsBackpack) return 1;
+        return 0;
+      });
     if (items.length > 0) {
       itemsByCategory.set(category, items);
     }
