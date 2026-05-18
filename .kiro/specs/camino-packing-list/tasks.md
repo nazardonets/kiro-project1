@@ -6,7 +6,7 @@ Implement a client-side React + TypeScript web app that collects trip dates and 
 
 ## Tasks
 
-- [-] 1. Set up project structure and core types
+- [x] 1. Set up project structure and core types
   - Initialize a Vite + React + TypeScript project
   - Install dependencies: `react`, `react-dom`, `typescript`, `vitest`, `@vitest/ui`, `fast-check`, `@testing-library/react`, `@testing-library/jest-dom`
   - Create the directory structure: `src/engine/`, `src/components/`, `src/data/`
@@ -23,8 +23,8 @@ Implement a client-side React + TypeScript web app that collects trip dates and 
     - Ensure all item notes are ≤ 60 characters
     - _Requirements: 3.1, 3.2, 3.3, 3.4, 3.5, 3.6, 4.2, 4.3_
 
-- [ ] 3. Implement the recommendation engine
-  - [ ] 3.1 Create `src/engine/seasonDetection.ts` with `detectSeason(departureDate: Date): Season`
+- [x] 3. Implement the recommendation engine
+  - [x] 3.1 Create `src/engine/seasonDetection.ts` with `detectSeason(departureDate: Date): Season`
     - Map months 3–5 → Spring, 6–8 → Summer, 9–11 → Autumn, 12/1/2 → Winter
     - _Requirements: 2.1, 2.2, 2.3_
 
@@ -35,7 +35,7 @@ Implement a client-side React + TypeScript web app that collects trip dates and 
     - Tag: `// Feature: camino-packing-list, Property 1: Season detection is total and correct`
     - _File: `src/engine/seasonDetection.test.ts`_
 
-  - [ ] 3.3 Create `src/engine/validation.ts` with `validateTripProfile(profile: TripProfileInput): ValidationResult`
+  - [x] 3.3 Create `src/engine/validation.ts` with `validateTripProfile(profile: TripProfileInput): ValidationResult`
     - Validate departure date present and not in the past
     - Validate return date present
     - Validate departure date strictly before return date
@@ -58,7 +58,7 @@ Implement a client-side React + TypeScript web app that collects trip dates and 
     - Tag: `// Feature: camino-packing-list, Property 3: Valid trip profiles are always accepted`
     - _File: `src/engine/validation.test.ts`_
 
-  - [ ] 3.6 Create `src/engine/recommendationEngine.ts` with `generatePackingList(profile: TripProfile): PackingList`
+  - [x] 3.6 Create `src/engine/recommendationEngine.ts` with `generatePackingList(profile: TripProfile): PackingList`
     - Filter `ItemDefinition[]` by season (include if `seasons` is absent or contains the profile's season)
     - Filter by accommodation type (include if `accommodationTypes` is absent or contains the type; exclude if `excludeAccommodationTypes` contains the type)
     - Always include items with `isBase: true`
@@ -101,11 +101,11 @@ Implement a client-side React + TypeScript web app that collects trip dates and 
     - Tag: `// Feature: camino-packing-list, Property 8: All packing list items have valid categories and names`
     - _File: `src/engine/recommendationEngine.test.ts`_
 
-- [ ] 4. Checkpoint — Ensure all engine tests pass
+- [x] 4. Checkpoint — Ensure all engine tests pass
   - Ensure all tests pass, ask the user if questions arise.
 
-- [ ] 5. Implement the TripProfileForm component
-  - [ ] 5.1 Create `src/components/TripProfileForm/TripProfileForm.tsx`
+- [x] 5. Implement the TripProfileForm component
+  - [x] 5.1 Create `src/components/TripProfileForm/TripProfileForm.tsx`
     - Render departure date field, return date field, and accommodation type selector (Municipal Albergue, Private Albergue, Hostel, Hotel)
     - On submit, call `validateTripProfile`; if invalid, display field-level error messages adjacent to each field; if valid, call `onSubmit(profile)`
     - Do not run validation on every keystroke — only on submit
