@@ -188,6 +188,43 @@ h3 { font-size: 1rem;   font-weight: 600; }
   font-size: 0.75rem;
 }
 
+.form-hint {
+  font-size: 0.8125rem;
+  color: var(--color-text-light);
+}
+
+/* Date input wrapper — positions the calendar icon overlay */
+.date-input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.date-input-wrapper .date-input {
+  padding-right: 2.75rem;
+  /* Hide the browser's native calendar icon on WebKit */
+  -webkit-appearance: none;
+}
+
+/* Remove the native date picker icon in Chrome/Safari */
+.date-input::-webkit-calendar-picker-indicator {
+  opacity: 0;
+  position: absolute;
+  right: 0;
+  width: 2.75rem;
+  height: 100%;
+  cursor: pointer;
+}
+
+.date-input__icon {
+  position: absolute;
+  right: 0.75rem;
+  font-size: 1rem;
+  pointer-events: none;
+  line-height: 1;
+  color: var(--color-text-muted);
+}
+
 /* ============================================================
    Buttons
    ============================================================ */

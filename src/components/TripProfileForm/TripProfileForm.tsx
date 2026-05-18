@@ -86,15 +86,26 @@ export function TripProfileForm({ onSubmit }: TripProfileFormProps) {
           <label htmlFor="departureDate" className="form-label">
             Departure date
           </label>
-          <input
-            id="departureDate"
-            type="date"
-            className="form-input"
-            value={departureDate}
-            onChange={(e) => setDepartureDate(e.target.value)}
-            aria-describedby={departureDateError ? "departureDateError" : undefined}
-            aria-invalid={departureDateError ? true : undefined}
-          />
+          <div className="date-input-wrapper">
+            <input
+              id="departureDate"
+              type="date"
+              className="form-input date-input"
+              value={departureDate}
+              min={todayISO()}
+              onChange={(e) => setDepartureDate(e.target.value)}
+              aria-describedby={
+                departureDateError ? "departureDateError" : "departureDateHint"
+              }
+              aria-invalid={departureDateError ? true : undefined}
+            />
+            <span className="date-input__icon" aria-hidden="true">📅</span>
+          </div>
+          {!departureDateError && !departureDate && (
+            <span id="departureDateHint" className="form-hint">
+              e.g. {exampleDate(7)}
+            </span>
+          )}
           {departureDateError && (
             <span id="departureDateError" role="alert" className="form-error">
               {departureDateError}
@@ -107,15 +118,26 @@ export function TripProfileForm({ onSubmit }: TripProfileFormProps) {
           <label htmlFor="returnDate" className="form-label">
             Return date
           </label>
-          <input
-            id="returnDate"
-            type="date"
-            className="form-input"
-            value={returnDate}
-            onChange={(e) => setReturnDate(e.target.value)}
-            aria-describedby={returnDateError ? "returnDateError" : undefined}
-            aria-invalid={returnDateError ? true : undefined}
-          />
+          <div className="date-input-wrapper">
+            <input
+              id="returnDate"
+              type="date"
+              className="form-input date-input"
+              value={returnDate}
+              min={departureDate || todayISO()}
+              onChange={(e) => setReturnDate(e.target.value)}
+              aria-describedby={
+                returnDateError ? "returnDateError" : "returnDateHint"
+              }
+              aria-invalid={returnDateError ? true : undefined}
+            />
+            <span className="date-input__icon" aria-hidden="true">📅</span>
+          </div>
+          {!returnDateError && !returnDate && (
+            <span id="returnDateHint" className="form-hint">
+              e.g. {exampleDate(21)}
+            </span>
+          )}
           {returnDateError && (
             <span id="returnDateError" role="alert" className="form-error">
               {returnDateError}
@@ -159,6 +181,22 @@ export function TripProfileForm({ onSubmit }: TripProfileFormProps) {
       </form>
     </div>
   );
+}
+
+/**
+ * Returns today's date as a YYYY-MM-DD string (for the `min` attribute).
+ */
+function todayISO(): string {
+  return new Date().toISOString().split('T')[0]!;
+}
+
+/**
+ * Returns a human-readable example date N days from today, e.g. "15 Jun 2026".
+ */
+function exampleDate(offsetDays: number): string {
+  const d = new Date();
+  d.setDate(d.getDate() + offsetDays);
+  return d.toLocaleDateString('en-GB', { day: 'numeric', month: '2-digit', year: 'numeric' });
 }
 
 /**
