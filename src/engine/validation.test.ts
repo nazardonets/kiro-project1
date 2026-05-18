@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach, vi, afterEach } from 'vitest';
+import { describe, it, expect } from 'vitest';
 import { validateTripProfile } from './validation';
 import type { TripProfileInput } from '../types';
 

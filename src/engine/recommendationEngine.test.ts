@@ -188,10 +188,10 @@ describe('generatePackingList', () => {
     it('does not include ItemDefinition-only fields in output items', () => {
       const list = generatePackingList(makeProfile());
       for (const item of list.items) {
-        expect((item as Record<string, unknown>)['isBase']).toBeUndefined();
-        expect((item as Record<string, unknown>)['seasons']).toBeUndefined();
-        expect((item as Record<string, unknown>)['accommodationTypes']).toBeUndefined();
-        expect((item as Record<string, unknown>)['excludeAccommodationTypes']).toBeUndefined();
+        expect((item as unknown as Record<string, unknown>)['isBase']).toBeUndefined();
+        expect((item as unknown as Record<string, unknown>)['seasons']).toBeUndefined();
+        expect((item as unknown as Record<string, unknown>)['accommodationTypes']).toBeUndefined();
+        expect((item as unknown as Record<string, unknown>)['excludeAccommodationTypes']).toBeUndefined();
       }
     });
 
