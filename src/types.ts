@@ -65,4 +65,6 @@ export interface ItemDefinition extends Item {
   accommodationTypes?: AccommodationType[];
   excludeAccommodationTypes?: AccommodationType[];
   isBase?: boolean; // always included regardless of season/accommodation
+  minDays?: number; // include only when tripDurationDays >= minDays
+  maxDays?: number; // include only when tripDurationDays <= maxDays
 }

@@ -91,7 +91,7 @@ export function PackingListView({
           </div>
 
           {/* Categories */}
-          <div>
+          <div className="categories-grid">
             {Array.from(itemsByCategory.entries()).map(([category, items]) => (
               <CategorySection
                 key={category}
