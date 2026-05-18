@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import type { AccommodationType, TripProfile, TripProfileInput } from "../../types";
 import { validateTripProfile } from "../../engine/validation";
 import { detectSeason } from "../../engine/seasonDetection";
@@ -23,6 +23,9 @@ export function TripProfileForm({ onSubmit }: TripProfileFormProps) {
   const [departureDateError, setDepartureDateError] = useState<string | null>(null);
   const [returnDateError, setReturnDateError] = useState<string | null>(null);
   const [accommodationTypeError, setAccommodationTypeError] = useState<string | null>(null);
+
+  const departureDateRef = useRef<HTMLInputElement>(null);
+  const returnDateRef = useRef<HTMLInputElement>(null);
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -73,6 +76,14 @@ export function TripProfileForm({ onSubmit }: TripProfileFormProps) {
     onSubmit(profile);
   }
 
+  /** Format a YYYY-MM-DD value for display, e.g. "15 Jun 2026" */
+  function formatDisplay(iso: string): string {
+    if (!iso) return "";
+    const d = parseLocalDate(iso);
+    if (!d) return iso;
+    return d.toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" });
+  }
+
   return (
     <div className="card">
       <form
@@ -81,68 +92,73 @@ export function TripProfileForm({ onSubmit }: TripProfileFormProps) {
         aria-label="Trip profile form"
         className="form-card"
       >
-        {/* Departure date */}
-        <div className="form-field">
-          <label htmlFor="departureDate" className="form-label">
-            Departure date
-          </label>
-          <div className="date-input-wrapper">
-            <input
-              id="departureDate"
-              type="date"
-              className="form-input date-input"
-              value={departureDate}
-              min={todayISO()}
-              onChange={(e) => setDepartureDate(e.target.value)}
-              aria-describedby={
-                departureDateError ? "departureDateError" : "departureDateHint"
-              }
-              aria-invalid={departureDateError ? true : undefined}
-            />
-            <span className="date-input__icon" aria-hidden="true">📅</span>
+        {/* Departure + Return dates — side by side */}
+        <div className="form-row">
+          {/* Departure date */}
+          <div className="form-field">
+            <label htmlFor="departureDate" className="form-label">
+              Departure date
+            </label>
+            <div
+              className={`date-input-wrapper${departureDateError ? " date-input-wrapper--error" : ""}`}
+              onClick={() => departureDateRef.current?.showPicker?.()}
+            >
+              {/* Hidden native date input — provides the picker */}
+              <input
+                ref={departureDateRef}
+                id="departureDate"
+                type="date"
+                className="date-input--hidden"
+                value={departureDate}
+                min={todayISO()}
+                onChange={(e) => setDepartureDate(e.target.value)}
+                aria-describedby={departureDateError ? "departureDateError" : undefined}
+                aria-invalid={departureDateError ? true : undefined}
+              />
+              {/* Visible display layer */}
+              <span className={`date-input__display${!departureDate ? " date-input__display--placeholder" : ""}`}>
+                {departureDate ? formatDisplay(departureDate) : "Select a date"}
+              </span>
+              <span className="date-input__icon" aria-hidden="true">📅</span>
+            </div>
+            {departureDateError && (
+              <span id="departureDateError" role="alert" className="form-error">
+                {departureDateError}
+              </span>
+            )}
           </div>
-          {!departureDateError && !departureDate && (
-            <span id="departureDateHint" className="form-hint">
-              e.g. {exampleDate(7)}
-            </span>
-          )}
-          {departureDateError && (
-            <span id="departureDateError" role="alert" className="form-error">
-              {departureDateError}
-            </span>
-          )}
-        </div>
 
-        {/* Return date */}
-        <div className="form-field">
-          <label htmlFor="returnDate" className="form-label">
-            Return date
-          </label>
-          <div className="date-input-wrapper">
-            <input
-              id="returnDate"
-              type="date"
-              className="form-input date-input"
-              value={returnDate}
-              min={departureDate || todayISO()}
-              onChange={(e) => setReturnDate(e.target.value)}
-              aria-describedby={
-                returnDateError ? "returnDateError" : "returnDateHint"
-              }
-              aria-invalid={returnDateError ? true : undefined}
-            />
-            <span className="date-input__icon" aria-hidden="true">📅</span>
+          {/* Return date */}
+          <div className="form-field">
+            <label htmlFor="returnDate" className="form-label">
+              Return date
+            </label>
+            <div
+              className={`date-input-wrapper${returnDateError ? " date-input-wrapper--error" : ""}`}
+              onClick={() => returnDateRef.current?.showPicker?.()}
+            >
+              <input
+                ref={returnDateRef}
+                id="returnDate"
+                type="date"
+                className="date-input--hidden"
+                value={returnDate}
+                min={departureDate || todayISO()}
+                onChange={(e) => setReturnDate(e.target.value)}
+                aria-describedby={returnDateError ? "returnDateError" : undefined}
+                aria-invalid={returnDateError ? true : undefined}
+              />
+              <span className={`date-input__display${!returnDate ? " date-input__display--placeholder" : ""}`}>
+                {returnDate ? formatDisplay(returnDate) : "Select a date"}
+              </span>
+              <span className="date-input__icon" aria-hidden="true">📅</span>
+            </div>
+            {returnDateError && (
+              <span id="returnDateError" role="alert" className="form-error">
+                {returnDateError}
+              </span>
+            )}
           </div>
-          {!returnDateError && !returnDate && (
-            <span id="returnDateHint" className="form-hint">
-              e.g. {exampleDate(21)}
-            </span>
-          )}
-          {returnDateError && (
-            <span id="returnDateError" role="alert" className="form-error">
-              {returnDateError}
-            </span>
-          )}
         </div>
 
         {/* Accommodation type */}
@@ -188,15 +204,6 @@ export function TripProfileForm({ onSubmit }: TripProfileFormProps) {
  */
 function todayISO(): string {
   return new Date().toISOString().split('T')[0]!;
-}
-
-/**
- * Returns a human-readable example date N days from today, e.g. "15 Jun 2026".
- */
-function exampleDate(offsetDays: number): string {
-  const d = new Date();
-  d.setDate(d.getDate() + offsetDays);
-  return d.toLocaleDateString('en-GB', { day: 'numeric', month: '2-digit', year: 'numeric' });
 }
 
 /**

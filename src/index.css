@@ -193,27 +193,78 @@ h3 { font-size: 1rem;   font-weight: 600; }
   color: var(--color-text-light);
 }
 
-/* Date input wrapper — positions the calendar icon overlay */
+/* Two-column row for side-by-side fields */
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+/* Date input wrapper — custom overlay hides the native input */
 .date-input-wrapper {
   position: relative;
   display: flex;
   align-items: center;
+  width: 100%;
+  padding: 0.625rem 0.875rem;
+  padding-right: 2.5rem;
+  font-size: 1rem;
+  font-family: var(--font-sans);
+  background: var(--color-surface);
+  border: 1.5px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  transition: border-color var(--transition), box-shadow var(--transition);
+  cursor: pointer;
+  user-select: none;
 }
 
-.date-input-wrapper .date-input {
-  padding-right: 2.75rem;
-  /* Hide the browser's native calendar icon on WebKit */
+.date-input-wrapper:focus-within {
+  border-color: var(--color-border-focus);
+  box-shadow: 0 0 0 3px rgba(176, 125, 74, 0.18);
+}
+
+.date-input-wrapper--error {
+  border-color: var(--color-danger);
+  background: var(--color-danger-bg);
+}
+
+/* The real date input — invisible but sits over the wrapper to catch clicks */
+.date-input--hidden {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+  border: none;
+  background: transparent;
+  /* Ensure the native picker still opens on click */
   -webkit-appearance: none;
 }
 
-/* Remove the native date picker icon in Chrome/Safari */
-.date-input::-webkit-calendar-picker-indicator {
-  opacity: 0;
+/* Remove the native calendar icon so the whole area is clickable */
+.date-input--hidden::-webkit-calendar-picker-indicator {
   position: absolute;
-  right: 0;
-  width: 2.75rem;
+  inset: 0;
+  width: 100%;
   height: 100%;
+  opacity: 0;
   cursor: pointer;
+}
+
+/* The visible text layer */
+.date-input__display {
+  flex: 1;
+  font-size: 1rem;
+  color: var(--color-text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  pointer-events: none;
+}
+
+.date-input__display--placeholder {
+  color: var(--color-text-light);
 }
 
 .date-input__icon {
@@ -541,3 +592,137 @@ h3 { font-size: 1rem;   font-weight: 600; }
 }
 
 /* Print styles are in print.css */
+
+/* ============================================================
+   Responsive — mobile breakpoints
+   ============================================================ */
+
+/* ── Narrow phones (≤ 480px) ── */
+@media (max-width: 480px) {
+  /* Tighter page padding */
+  .page-wrapper {
+    padding: 1rem 0.75rem 3rem;
+  }
+
+  /* Card: less padding, flush corners on very small screens */
+  .card {
+    padding: 1.25rem 1rem;
+    border-radius: var(--radius-md);
+  }
+
+  /* Header: scale down the large serif title */
+  .app-header {
+    margin-bottom: 1.25rem;
+  }
+
+  .app-header__title {
+    font-size: 1.6rem;
+  }
+
+  .app-header__subtitle {
+    font-size: 0.9rem;
+  }
+
+  /* Form: tighter gap between fields */
+  .form-card {
+    gap: 1.1rem;
+  }
+
+  /* Date row: stack vertically on phones */
+  .form-row {
+    grid-template-columns: 1fr;
+    gap: 1.1rem;
+  }
+
+  /* Larger touch targets for date wrappers */
+  .date-input-wrapper {
+    padding: 0.75rem 0.875rem;
+    padding-right: 2.5rem;
+    min-height: 48px;
+  }
+
+  /* Larger touch targets for select */
+  .form-select {
+    min-height: 48px;
+  }
+
+  /* Trip summary: single column (already handled above 480px too) */
+  .trip-summary {
+    padding: 1rem;
+  }
+
+  .trip-summary__grid {
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+  }
+
+  /* Controls bar: stack buttons full-width */
+  .controls-bar {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.5rem;
+    padding-top: 1.25rem;
+    margin-top: 1.25rem;
+  }
+
+  .controls-bar__spacer {
+    display: none;
+  }
+
+  .controls-bar .btn {
+    width: 100%;
+    justify-content: center;
+    min-height: 44px;
+  }
+
+  /* Packing items: bigger tap area */
+  .packing-item__label {
+    padding: 0.625rem 0.5rem;
+    min-height: 44px;
+  }
+
+  .packing-item__checkbox {
+    width: 1.25rem;
+    height: 1.25rem;
+    min-width: 1.25rem;
+  }
+
+  /* Category header: slightly smaller text */
+  .category-section__title {
+    font-size: 0.75rem;
+  }
+}
+
+/* ── Tablets / large phones (481px – 640px) ── */
+@media (min-width: 481px) and (max-width: 640px) {
+  .page-wrapper {
+    padding: 1.5rem 1rem 3.5rem;
+  }
+
+  .card {
+    padding: 1.5rem 1.25rem;
+  }
+
+  .app-header__title {
+    font-size: 1.9rem;
+  }
+
+  /* Date row: keep side-by-side but tighten gap */
+  .form-row {
+    gap: 0.75rem;
+  }
+
+  /* Controls bar: wrap but don't force full-width */
+  .controls-bar {
+    gap: 0.5rem;
+  }
+
+  .controls-bar .btn {
+    min-height: 44px;
+  }
+
+  .packing-item__label {
+    min-height: 44px;
+  }
+}
+
