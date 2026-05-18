@@ -119,14 +119,14 @@ Implement a client-side React + TypeScript web app that collects trip dates and 
     - _File: `src/components/TripProfileForm/TripProfileForm.test.tsx`_
     - _Requirements: 1.1, 1.2, 1.3, 1.4, 1.5, 1.7, 1.8_
 
-- [ ] 6. Implement the PackingItem and CategorySection components
-  - [ ] 6.1 Create `src/components/PackingItem/PackingItem.tsx`
+- [x] 6. Implement the PackingItem and CategorySection components
+  - [x] 6.1 Create `src/components/PackingItem/PackingItem.tsx`
     - Render a checkbox, item name, and optional note
     - When checked, apply strikethrough text and reduced opacity
     - Props: `item: Item`, `checked: boolean`, `onToggle: (id: string) => void`
     - _Requirements: 4.2, 4.3, 5.1, 5.2_
 
-  - [ ] 6.2 Create `src/components/CategorySection/CategorySection.tsx`
+  - [x] 6.2 Create `src/components/CategorySection/CategorySection.tsx`
     - Render a category heading and a list of `PackingItem` components
     - Props: `category: Category`, `items: Item[]`, `checkedIds: Set<string>`, `onToggle: (id: string) => void`
     - _Requirements: 4.1, 4.2_
@@ -138,13 +138,13 @@ Implement a client-side React + TypeScript web app that collects trip dates and 
     - _File: `src/components/PackingItem/PackingItem.test.tsx`_
     - _Requirements: 4.2, 4.3, 5.1, 5.2_
 
-- [ ] 7. Implement the TripSummary and PackingListControls components
-  - [ ] 7.1 Create `src/components/TripSummary/TripSummary.tsx`
+- [x] 7. Implement the TripSummary and PackingListControls components
+  - [x] 7.1 Create `src/components/TripSummary/TripSummary.tsx`
     - Display departure date, return date, accommodation type, and derived season
     - Props: `tripProfile: TripProfile`, `season: Season`
     - _Requirements: 4.5_
 
-  - [ ] 7.2 Create `src/components/PackingListControls/PackingListControls.tsx`
+  - [x] 7.2 Create `src/components/PackingListControls/PackingListControls.tsx`
     - Render Export, Print, and Start Over buttons
     - Export: generate a `.txt` file using `Blob` + `URL.createObjectURL`; if list is empty, show inline message instead
     - Print: call `window.print()`; if list is empty, show inline message instead
@@ -160,8 +160,8 @@ Implement a client-side React + TypeScript web app that collects trip dates and 
     - _File: `src/components/PackingListControls/PackingListControls.test.tsx`_
     - _Requirements: 6.2, 6.3, 6.4, 6.5, 7.2, 7.3, 7.4_
 
-- [ ] 8. Implement the PackingListView component
-  - [ ] 8.1 Create `src/components/PackingListView/PackingListView.tsx`
+- [x] 8. Implement the PackingListView component
+  - [x] 8.1 Create `src/components/PackingListView/PackingListView.tsx`
     - Render `TripSummary`, a list of `CategorySection` components (items grouped by category), the "X of Y items packed" counter, and `PackingListControls`
     - Manage `checkedIds: Set<string>` in local state via `useState`
     - Update counter within 100ms on toggle (React state update is synchronous in test environments)
